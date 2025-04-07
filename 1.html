@@ -6,6 +6,35 @@
     <title>replit</title>
 </head>
 <body>
-    hell0
+    <div id="buttonParent"></div>
+    <script>
+        let state={//STATE
+            // STATE DEFINATION-an object that represents the current
+            // state of the app. it represents the dynamic things in your app (things that change)
+            count:0,
+        }
+        // COMPONENT DEFINATION- how a DOM element should render, given a state
+        // it is reusable, dynamic,html snippet that changes given the state
+        function onButtonPress(){
+            // DEFINING BUTTON COMPONENT
+            state.count++;
+            buttonComponentRerender()
+        }
+        function buttonComponentRerender(){
+            // RE-RENDERING-it represt the actual dom manipulate when the state changes
+            // REACRT LIBRARY;
+            document.getElementById("buttonParent").innerHTML=""
+            const component=buttonComponent(state.count);
+            document.getElementById("buttonParent").appendChild(component)
+        }
+        function buttonComponent(count){
+            // DEFINING BUTTON COMPONENT
+            const button=document.createElement("button")
+            button.innerHTML=`Counter ${count}`
+            button.setAttribute("onclick",`onButtonPress()`);
+            return button
+        }
+        buttonComponentRerender()
+    </script>
 </body>
 </html>
