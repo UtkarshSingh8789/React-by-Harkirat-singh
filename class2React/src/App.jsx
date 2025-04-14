@@ -90,45 +90,97 @@
 
 
 
-// CONCEPT-2 REREVISION OF USEEFFECT,CLEANUP,PROPS AND DEPENCYARRAY IN USE EFFEC;
-import { useEffect, useState } from "react";
-function app(){
-  const [count,setCount]=useState(0);
-  const [count2,setCount2]=useState(0);
-  function increase(){
-    setCount(c=>c+1)
-  }
-  function decrease(){
-    setCount2(c=>c-1)
-  }
+// CONCEPT-2 REREVISION OF USEEFFECT,CLEANUP,PROPS AND DEPENCYARRAY IN USE EFFEC ANd COncept of children;
+// import { useEffect, useState } from "react";
+// function App(){
+//   const [count,setCount]=useState(0);
+//   const [count2,setCount2]=useState(0);
+//   function increase(){
+//     setCount(c=>c+1)
+//   }
+//   function decrease(){
+//     setCount2(c=>c-1)
+//   }
+//   return <div style={{display:"flex"}}>
+//     {/* <Counter count={count} count2={count2}/>
+//     {/* pasing count ans props */}
+//     {/* <button onClick={increase}>Increase Count</button>
+//     <button onClick={decrease}>Decrease Count</button> */}
+//     {/* <Card innerContent={<div style={{color:"green"}}>
+//       What Do you Want To Post ? <br/> <br/>
+//       <input type={"text"}/>
+//       </div>}></Card> Alternative and much more easier to read */}
+//     <Card>
+//       <div style={{color:"green"}}>
+//       {/* // this is the general syntax of inline styling we use double brases */}
+//         What Do you Want To Post ? <br/> <br/>
+//         <input type={"text"}/>
+//       </div>
+//       {/* this children will wrap inside the div of card component so it apperas in the card component*/}
+//     </Card>
+//     {/* for using this syntax the paramete inside the card component must has name of children */}
+//     <Card innerContent={"hii There"}></Card>
+//   </div>
+// }
+// function Counter(props){
+//   // props is like a prameter which we pass in the component;
+//   useEffect(()=>{
+//     console.log("mount")
+//     return function(){
+//       console.log("unmount")
+//     }
+//   },[])// in this the logic inside the useEffect will run only one time because it has no depencies and since no dependencies it mount one time not renrenders again and again
+//   useEffect(()=>{
+//     console.log("count has changed");
+//     // at first this is consoled;
+//     // but when we icrease the count is increase the the cleanup for second is consoled and then consoled count has changed
+//     // purane count ko saaf krlo and cew count come;
+//     return function(){
+//       console.log("cleanup for second");
+//     }
+//   },[props.count])// in this the logic willl rerenderes whenver the count state variable changes
+//   return <div>
+//     Counter1 {props.count}
+//     Counter2 {props.count2}
+//   </div>
+// }
+// // card componet to understand the concept of children
+// // CHILDREN-> The children prop allows you to pass elements or components as props to other components.
+// function Card({children}){
+//   return <div style={{background:"black",borderRadius:10,
+//     color:"white",padding:10,margin:10
+//   }}>
+//     {children}
+//   </div>
+// }
+// export default App;
+
+// CONCEPT OF LIST ;;
+
+import React from "react";
+const App=()=>{
+  const todos=[{
+    title:"Go to gym",
+    done: false
+  },
+  {
+    title:"Eat food",
+    done: true
+  }];
+  //In React, .map() is the standard way to render a list of components:
+  const todosComponents=todos.map((todo)=>{
+    return <Todo title={todo.title} done={todo.done}/>
+  })// map donot modify the original array it return the new array
+  return (
+    <div>
+      {todosComponents}
+    </div>
+  )
+}
+function Todo({title,done}){
   return <div>
-    <Counter count={count} count2={count2}/>
-    {/* pasing count ans props */}
-    <button onClick={increase}>Increase Count</button>
-    <button onClick={decrease}>Decrease Count</button>
+    {title} - {done ? "Done!":"Not Done"}
   </div>
 }
-function Counter(props){
-  // props is like a prameter which we pass in the component;
-  useEffect(()=>{
-    console.log("mount")
-    return function(){
-      console.log("unmount")
-    }
-  },[])// in this the logic inside the useEffect will run only one time because it has no depencies and since no dependencies it mount one time not renrenders again and again
-  useEffect(()=>{
-    console.log("count has changed");
-    // at first this is consoled;
-    // but when we icrease the count is increase the the cleanup for second is consoled and then consoled count has changed
-    // purane count ko saaf krlo and cew count come;
-    return function(){
-      console.log("cleanup for second");
-    }
-  },[props.count])// in this the logic willl rerenderes whenver the count state variable changes
-  return <div>
-    Counter1 {props.count}
-    Counter2 {props.count2}
-  </div>
-}
-export default app;
+export default App
 
