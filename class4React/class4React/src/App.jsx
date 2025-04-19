@@ -41,7 +41,10 @@ function App() {
   // },[])
   const postTitle=usePostTitle()
   const [currentPost,setCurrentPost]=useState(1)
-  const {finalData}=useFetch("https://jsonplaceholder.typicode.com/posts/"+currentPost)
+  const {finalData,loading}=useFetch("https://jsonplaceholder.typicode.com/posts/"+currentPost)
+  if(loading){
+    return <div>Loading....</div>
+  }
   return (
     <div>
       {/* <button onClick={increaseCount}>Increase {count}</button> */}

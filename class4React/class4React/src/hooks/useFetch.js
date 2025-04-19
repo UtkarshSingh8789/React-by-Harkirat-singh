@@ -20,13 +20,18 @@ export function usePostTitle(){
 // this will accept argument-> we will send this to url, then this will send the backend request,get back the response and return the data
 export function useFetch(url){
     const [finalData,setFinalData]=useState({})
+    const [loading,setLoading]=useState(true)
     async function getDetails(){
+        // request jaane ke phle loading true;
+        setLoading(true)
         const response=await fetch(url);
         const json=await response.json();
         setFinalData(json)
+        // resonse millne ke baad loading false;
+        setLoading(false)
     }
     useEffect(()=>{
         getDetails()
     },[url])// whenever the url change this will re-renders
-    return {finalData}
+    return {finalData,loading}
 }
