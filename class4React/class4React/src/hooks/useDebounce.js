@@ -16,4 +16,4 @@ export const useDebounce=(originalFn)=>{
         currentClock.current=setTimeout(originalFn,200)
     }
     return fn
-}// it will first clear the old clock and start the new clock which will call the original function after 200 millisecond
+}// it will first clear the old clock and start the new clock which will call the original function after 200 millisecondstate
