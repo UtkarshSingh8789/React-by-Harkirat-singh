@@ -134,6 +134,9 @@ function Counter(){
   // since we are not passing state variables to its child components the re-render will still happens in its child component(CurrentCount,Increase,Decrease);
   // the react is not smart enought we have to till the unless the prop changes in the child components do not re-renders it
   // to fix it we use memo
+
+  // definations-> React says Anytime a component re-renders all its childreen also rerender
+  // But if we wrap a component inside a memo only if the props/state in that component has changed Only then will it re-render
   return (
     <div>
       {/* <CurrentCount/> */}
