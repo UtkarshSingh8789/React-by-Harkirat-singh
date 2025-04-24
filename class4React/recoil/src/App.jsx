@@ -6,6 +6,7 @@
 // import { useState } from "react"
 // import { createContext } from "react"
 
+
 // // first creating the counter app using context api;
 // function App() {
 //   return (
@@ -117,54 +118,104 @@
 
 // CONCEPT OF MEMO  ;
 
-import { useEffect, useState,memo } from "react";
+// import { useEffect, useState,memo } from "react";
+// function App(){
+//   return (
+//     <Counter/>
+//   )
+// }
+// function Counter(){
+//   const [count,setCount]=useState(0)
+//   useEffect(()=>{
+//     setInterval(()=>{
+//       setCount(c=>c+1)
+//     },3000)
+//   },[])
+//   // in Counter component rerenders will happen whenever the count changes that is at every 3 sec;
+//   // since we are not passing state variables to its child components the re-render will still happens in its child component(CurrentCount,Increase,Decrease);
+//   // the react is not smart enought we have to till the unless the prop changes in the child components do not re-renders it
+//   // to fix it we use memo
+
+//   // definations-> React says Anytime a component re-renders all its childreen also rerender
+//   // But if we wrap a component inside a memo only if the props/state in that component has changed Only then will it re-render
+//   return (
+//     <div>
+//       {/* <CurrentCount/> */}
+//       <MemoizedCurrentCount/>
+//       {/* it will not rerender unless the prop changes or state changes of that component*/}
+//       <Increase/>
+//       <Decrease/>
+//     </div>
+//   )
+// }
+// const MemoizedCurrentCount=memo(CurrentCount)
+// function CurrentCount(){
+//   return <div>1</div>
+// }
+// //Another syntax of memo
+// const Increase=memo(function (){
+//   return (
+//     <div>
+//       <button onClick={()=>{}}>Increase</button>
+//     </div>
+//   )
+// })
+// const Decrease=memo(function (){
+//   return (
+//     <div>
+//       <button onClick={()=>{}}>Increase</button>
+//     </div>
+//   )
+// })
+// export default App
+
+
+// CONCEPT OF SELECTOR;
+
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil"
+import { counterAtom } from "./store/atoms/counter.js"
+import { evenSelector } from "./store/selectors/evenSelector.js"
 function App(){
   return (
-    <Counter/>
+    <div>
+      <RecoilRoot>
+        <Buttons/>
+        <Counter/>
+        <IsEven/>
+      </RecoilRoot>
+    </div>
   )
+}
+function Buttons(){
+  const setCount=useSetRecoilState(counterAtom)
+  function increase(){
+    setCount(c=>c+2)
+  }
+  function decrease(){
+    setCount(c=>c-1)
+  }
+  return <div>
+    <button onClick={increase}>Increase</button>
+    <button onClick={decrease}>Decrease</button>
+  </div>
 }
 function Counter(){
-  const [count,setCount]=useState(0)
-  useEffect(()=>{
-    setInterval(()=>{
-      setCount(c=>c+1)
-    },3000)
-  },[])
-  // in Counter component rerenders will happen whenever the count changes that is at every 3 sec;
-  // since we are not passing state variables to its child components the re-render will still happens in its child component(CurrentCount,Increase,Decrease);
-  // the react is not smart enought we have to till the unless the prop changes in the child components do not re-renders it
-  // to fix it we use memo
+  const count=useRecoilValue(counterAtom)
+  return <div>
+    count:{count}
+  </div>
+}
+function IsEven(){
+  // it is not subscribing to the atom it is sunbscribed to the derived state isEvenSelector;
+  const even=useRecoilValue(evenSelector)
+  return(
+    <div>
+      {even ? "Even" : "Odd"}
+    </div>
+  )
+}
 
-  // definations-> React says Anytime a component re-renders all its childreen also rerender
-  // But if we wrap a component inside a memo only if the props/state in that component has changed Only then will it re-render
-  return (
-    <div>
-      {/* <CurrentCount/> */}
-      <MemoizedCurrentCount/>
-      {/* it will not rerender unless the prop changes or state changes of that component*/}
-      <Increase/>
-      <Decrease/>
-    </div>
-  )
-}
-const MemoizedCurrentCount=memo(CurrentCount)
-function CurrentCount(){
-  return <div>1</div>
-}
-//Another syntax of memo
-const Increase=memo(function (){
-  return (
-    <div>
-      <button onClick={()=>{}}>Increase</button>
-    </div>
-  )
-})
-const Decrease=memo(function (){
-  return (
-    <div>
-      <button onClick={()=>{}}>Increase</button>
-    </div>
-  )
-})
+//RESULT- when the counter is changed then only Count component rerenders because this is only subscribed to counter;
+// IsEven component only re-render when the counte changes to odd because this guy is only subscribed to derived state evenSelector;
 export default App
 
