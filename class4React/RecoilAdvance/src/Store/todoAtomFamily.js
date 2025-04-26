@@ -18,4 +18,7 @@ export const TodoAtomFamily=atomFamily({
         }
         return foundTodo
     }
-})
+})// todo family will create new atom for the particualr component;
+
+// in the todo application, if we want to get Todos from a server then we want to learn about selector family
+// useRecoilStateLoadable,useRecoilValueLoadable from docs
